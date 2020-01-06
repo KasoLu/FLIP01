@@ -1,0 +1,14 @@
+report/~$*.pptx
+Code/.ipynb_checkpoints/
+*.aux
+*.bm
+*.log
+*.synctex.gz
+*.toc
+*.dvi
+*.ps
+*.vrb
+*.out
+.synctex(busy)
+.synctex
+report/*.pdf
