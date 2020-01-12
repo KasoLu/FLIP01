@@ -9,6 +9,6 @@ Code/.ipynb_checkpoints/
 *.ps
 *.vrb
 *.out
-.synctex(busy)
-.synctex
+*.synctex(busy)
+*.synctex
 report/*.pdf
