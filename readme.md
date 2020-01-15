@@ -5,6 +5,10 @@
 - 使用从近70个网站收集来的question-answer pairs数据集，建立针对问答的不同主观方面的预测算法
   - (for different subjective aspects of question-an4swering)
 
+The training data contains rows with some duplicated questions (but with different answers). The test data does not contain any duplicated questions.
+
+This is not a binary prediction challenge. Target labels are aggregated from multiple raters, and can have continuous values in the range [0,1]. Therefore, predictions must also be in that range.
+
 ## Submission Evaluation
 
 - 使用mean column-wise Spearman's correlation coefficient
