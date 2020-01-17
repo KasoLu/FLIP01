@@ -3,7 +3,7 @@
 ![img](https://storage.googleapis.com/kaggle-media/competitions/google-research/human_computable_dimensions_1.png)
 
 - 使用从近70个网站收集来的question-answer pairs数据集，建立针对问答的不同主观方面的预测算法
-  - (for different subjective aspects of question-an4swering)
+  - (for different subjective aspects of question-answering)
 
 The training data contains rows with some duplicated questions (but with different answers). The test data does not contain any duplicated questions.
 

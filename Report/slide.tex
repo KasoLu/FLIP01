@@ -88,18 +88,51 @@ list={labelsep=1em,leftmargin=*,itemsep=0pt,topsep=5pt,parsep=0pt},
 
 \maketitle 
 
-\begin{slide}[toc=,bm=]{Overview}
+\begin{slide}[toc=,bm=]{Content}
 \tableofcontents[content=sections,type=1]
 \end{slide}
 
+\section{Overview}
 \begin{slide}{Problem Defination}
     \begin{itemize}
         \item \textbf{Problem:}\ Google QUEST Q\&A Labeling
         \begin{itemize}
             \item Text Processing
+            \item Question-answer pairs dataset
             \item Multi-task Regression
-            \item From Featured Group 
         \end{itemize}
-    \end{itemize}    
+    \end{itemize} 
+    \centering{
+        \includegraphics[height=0.5\slideheight]{figures/title.eps}  
+    } 
+\end{slide}
+\begin{slide}{Dataset}
+    \begin{itemize}
+        \item Features:
+        \begin{itemize}
+            \item Question title\&body
+            \item Answer
+            \item Host
+            \item Category
+            \item Question user
+            \item Answer user
+            \item Url
+        \end{itemize}
+        \item Targets:
+        \begin{itemize}
+            \item Continuous values in the range [0,1]
+            \item 21 question related target
+            \item 9 answer related target
+        \end{itemize}
+    \end{itemize}
+\end{slide}
+\section{Exploring Data Analysis}
+\begin{slide}{Host and Category}
+    \centering{
+        \includegraphics[height=0.6\slideheight]{figures/hosts_categories.eps}
+    }
+\begin{slide}{Targets}
+
+\end{slide}
 \end{slide}
 \end{document}
