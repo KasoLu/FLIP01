@@ -109,7 +109,7 @@ list={labelsep=1em,leftmargin=*,itemsep=0pt,topsep=5pt,parsep=0pt},
 \begin{slide}{Dataset}
     \begin{itemize}
         \item 6049 records in training set
-        \item 
+        \item 476 records in test set
         \item Features:
         \begin{itemize}
             \item Question title\&body
@@ -309,42 +309,91 @@ list={labelsep=1em,leftmargin=*,itemsep=0pt,topsep=5pt,parsep=0pt},
 \section{Experiment and Analysis}
 \begin{slide}{Model Building}
     \begin{itemize}
+        \item I tried build serval linear regression model for each target, it doesn't work out.
+        \item Then I tried Neural Network, It works better than any kinds of linear regression.
         \item Model: \textbf{Neural Network}
         \begin{itemize}
             \item After serval times tuning, I created a NN with following structure and hyperparameters:
+            \item Use sigmoid in output layer to ensure all output are in [0,1] range.
+            \item Use dropout to regulize the network, reduce overfit.
         \end{itemize}
     \end{itemize}
-    \begin{table}
-        \centering
-        \caption{Structure of the NN}
-        \label{tbl:NN1}
-        \begin{tabular}{ccc}
-            \hline
-            Layer & Output Shape & Activity Function \\
-            Input & 1536 & -      \\
-            Dropout & 1536 & -    \\
-            Dense & 512 & elu     \\
-            Dropout & 512 & -     \\
-            Dense & 30 & elu      \\
-            Output & 30 & sigmoid \\ 
-        \end{tabular}
-    \end{table}
-    \begin{table}
-        \centering
-        \caption{Hyper Params of the NN}
-        \label{tbl:NN2}
-        \begin{tabular}{cc}
-            \hline
-            Hyper Param & Value   \\
-            Loss Function & cross entropy &\\
-            Optimizer & Adam \\
-            Learning Rate & 3e-4 \\
-         \end{tabular}
-    \end{table}
+    \twocolumn[lineheight=0.3\slideheight]{
+        \begin{table}
+            \centering
+            \caption{Structure of the NN}
+            \label{tbl:NN1}
+            \begin{tabular}{ccc}
+                \hline
+                Layer & Output Shape & Activity Function \\
+                \hline
+                Input & 1536 & -      \\
+                Dropout & 1536 & -    \\
+                Dense & 512 & elu     \\
+                Dropout & 512 & -     \\
+                Dense & 30 & elu      \\
+                Output & 30 & sigmoid \\ 
+                \hline
+            \end{tabular}
+        \end{table}
+    }
+    {
+        \vspace{0.05\slideheight}
+        \begin{table}
+            \centering
+            \caption{Hyper Params of the NN}
+            \label{tbl:NN2}
+            \begin{tabular}{cc}
+                \hline
+                Hyper Param & Value   \\
+                \hline
+                Loss Function & cross entropy\\
+                Optimizer & Adam \\
+                Learning Rate & 3e-4 \\
+                Dropout Rate & 0.5 \\
+                \hline
+             \end{tabular}
+        \end{table}
+    }
 \end{slide}
-%
-%\section{Conclusion}
-%\begin{slide}
-%    
-%\end{slide}
+\begin{slide}{Experiment}
+    \begin{itemize}
+        \item 5 fold cross-validation
+        \item Early stopping
+        \item \textbf{Evaluate:} Spearman's $\rho$
+        \item My Leaderboard Score: 0.346
+        \begin{itemize}
+            \item \emph{Top Leaderboard Score: 0.465}
+        \end{itemize}
+    \end{itemize}
+    \twocolumn[lineheight=0.4\slideheight]{
+        \centering{
+        \includegraphics[height=0.4\slideheight]{figures/loss.eps}
+        }
+    }{
+        \centering{
+        \includegraphics[height=0.4\slideheight]{figures/spearman.eps}
+        }
+    }
+\end{slide}
+
+\section{Conclusion}
+\begin{slide}{Conclusion}
+    \begin{itemize}
+        \item Neural Newwork can work better than linear regression in multi-task learning problem.
+        \item It's important to process text data.
+        \begin{itemize}
+            \item Bag of Word
+            \item Word Vector
+            \item \dots
+        \end{itemize}
+        \item Transition Learning may help.
+    \end{itemize}
+\end{slide}
+\begin{emptyslide}{}
+	\centering
+	\vspace{\stretch{1}}
+	{\huge Thank you!}
+	\vspace{\stretch{1}}
+\end{emptyslide}
 \end{document}
