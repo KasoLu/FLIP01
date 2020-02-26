@@ -30,11 +30,11 @@ Transformer Models such as \textit{Bert} are proven have great performance on ma
 In this competation, I will use Bert Model to solve the problem.
 \newpage
 \section{EDA and Data Preprocessing} \label{sec-eda}
-\subsection{Host and Category}
-The Q-A pairs is collected from over 70 different web site,with 7 different category.
+\subsection{Category}
+The QA pairs is collected from over 70 different web site,with 7 different category.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.5\linewidth]{C:/Users/rukam/source/repos/FLIP01/Report/figures/categories.pdf}
+    \includegraphics[width=.5\linewidth]{figures/categories.pdf}
     \caption{Category Distribution}
     \label{fig:categories}
 \end{figure}
@@ -145,6 +145,50 @@ The competition description has said that:
     \end{minipage}
     \end{table}
 \section{Method} \label{sec-method}
+BERT is a deep learning model that has given state-of-the-art results on 
+a wide variety of natural language processing tasks. 
+It stands for \textbf{Bidirectional Encoder Representations for Transformers.}
+It has been pre-trained on Wikipedia and BooksCorpus and requires (only) task-specific fine-tuning.
+
+The fine-tune of BERT requires a series of text preprocessing, include wordpiece tokenization and 
+three different embedding。
+\subsection{Wordpiece Tokenization}
+The wordpiece model chooses the two tokens to combine that 
+would give the training corpus the highest probability.
+Rather than merging the pairs that are most frequent, 
+wordpiece instead merges the pairs that minimizes 
+the language model likelihood of the training data.
+
+The intuition of wordpiece tokenization is:
+\begin{itemize}
+    \item First, Split input sentence using some simple basic tokenizer (like whitespace) into a series of rough word tokens.
+    \item Then word-initial subwords are distinguished from those that do not start words by marking internal subwords with special symbols \#\#
+    \item Finally, tokenize every word token string using a greedy longest-match-first algorithm.
+\end{itemize}
+
+The greedy longest-match-first algorithm used here is also called \emph{MaxMatch} algorithm.
+\begin{algorithm}[htbp]
+	\small
+	\caption{MaxMatch Algorithm}
+	\label{alg:maxmatch}
+	\begin{algorithmic}[1]
+		\REQUIRE
+        string to be tokenize $string$,
+        The vocabulary $dic$
+		\ENSURE
+        list of tokens $T$.
+        \IF{$string is empty$}
+        \RETURN $empty list$
+        \ENDIF
+        \FOR {$i\leftarrow length(sentence) $\textbf{downto} $1$}
+        \STATE $firstword$ = first $i$ chars of sentence
+        \STATE $remainder$ = rest of sentence
+        \IF{InDictionary($firstword,dict$)}
+        \RETURN list($firstword$, MaxMatch($remainder, dict$))
+        \ENDIF
+        \ENDFOR
+	\end{algorithmic}
+\end{algorithm}
 \subsection{Embedding}
 The idea of vector semantics is thus to represent a word as a point in some multidimensional semantic space.
 Vectors for representing words are generally called embeddings, because the word is embedded in a particular vector space.
@@ -199,12 +243,11 @@ The intuition of skip-gram is:
     \item Use logistic reg to train a classifier to distinguish those two cases.
     \item Use the reg weights as the embeddings.
 \end{enumerate}
+\subsubsection{WordPiece}
+
 \subsection{Transformer}
 \subsection{BERT}
-BERT is a deep learning model that has given state-of-the-art results on 
-a wide variety of natural language processing tasks. 
-It stands for \textbf{Bidirectional Encoder Representations for Transformers.}
-It has been pre-trained on Wikipedia and BooksCorpus and requires (only) task-specific fine-tuning.
+
 \section{Experiment and Analysis} \label{sec-experiment}
 \subsection{Model Building}
 \subsection{Experiment}
