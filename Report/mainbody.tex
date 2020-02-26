@@ -31,20 +31,34 @@ In this competation, I will use Bert Model to solve the problem.
 \newpage
 \section{EDA and Data Preprocessing} \label{sec-eda}
 \subsection{Host and Category}
-The Q\&A pairs is collected from over 70 different web site,with 7 different category.
+The Q-A pairs is collected from over 70 different web site,with 7 different category.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.5\linewidth]{figures/hosts_categories.pdf}
+    \includegraphics[width=.5\linewidth]{C:/Users/rukam/source/repos/FLIP01/Report/figures/categories.pdf}
     \caption{Category Distribution}
     \label{fig:categories}
 \end{figure}
 \subsection{Targets}
 The 30 targets shoud be continuous values according to the competition description.
-But in fact, according to the training set, they have several fixed values.
+But in fact, according to the training set, they have only several fixed values.
 \begin{figure}[htbp]
     \centering
     \centering
     \includegraphics[width=\linewidth]{figures/targets.pdf}
+    \caption{Targets Distribution}
+    \label{fig:targets}
+\end{figure}
+
+The box plot below shows the corresponding between target values and categories. 
+It's interesting to notice that:
+\begin{itemize}
+    \item Target distribution alone categories have not much different.
+    \item Some targets have a very sharp distribution.
+\end{itemize}
+\begin{figure}[htbp]
+    \centering
+    \centering
+    \includegraphics[width=\linewidth]{figures/target_category_distribution.pdf}
     \caption{Targets Distribution}
     \label{fig:targets}
 \end{figure}

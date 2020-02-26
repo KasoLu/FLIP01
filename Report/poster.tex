@@ -1,27 +1,3 @@
-%%
-%% This is file `tikzposter-template.tex',
-%% generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% tikzposter.dtx  (with options: `tikzposter-template.tex')
-%%
-%% This is a generated file.
-%%
-%% Copyright (C) 2014 by Pascal Richter, Elena Botoeva, Richard Barnard, and Dirk Surmann
-%%
-%% This file may be distributed and/or modified under the
-%% conditions of the LaTeX Project Public License, either
-%% version 2.0 of this license or (at your option) any later
-%% version. The latest version of this license is in:
-%%
-%% http://www.latex-project.org/lppl.txt
-%%
-%% and version 2.0 or later is part of all distributions of
-%% LaTeX version 2013/12/01 or later.
-%%
-
-
 \documentclass{tikzposter} %Options for format can be included here
 
 \usepackage{todonotes}
@@ -53,11 +29,9 @@
 \colorlet{backgroundcolor}{blue!10}
 
  % Title, Author, Institute
-\title{Group Outlying Aspects Mining}
-\author{Shaoni Wang$^1$, Gang Li$^2$}
-\institute{$^1$ Xi'an Shiyou University, China \\
-	$^2$ Deakin University, Australia
-}
+\title{FLIP01 Final-term Presentation}
+\author{Jiahui Zhou$^1$}
+\institute{$^1$ Xi'an Shiyou University, China}
 %\titlegraphic{logos/tulip-logo.eps}
 
 %Choose Layout
@@ -96,21 +70,51 @@
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 \block{Introduction}{
-    Many real world applications call for one important function
+    The competation \textit{Google QUEST Q\&A Labeling} is designed to 
+    improving automated understanding of complex question answer content.
+    The challenge is to use this new dataset to build predictive algorithms for different subjective aspects of question-answering. 
+    The question-answer pairs were gathered from nearly 70 different websites, in a "common-sense" fashion.
+    \begin{center}
+        \includegraphics[width=\linewidth]{figures/title.eps}
+    \end{center}
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block{Group Outlying Aspects Mining}{
-
+\block{Dataset}{
+    The dataset contains 6049 records in training set and 476 records in test set, with the following features:
+    \begin{itemize}
+        \item Question title\&body
+        \item Answer
+        \item Host
+        \item Category
+        \item Question user
+        \item Answer user
+        \item Url
+    \end{itemize}
+    The targets are both continuous values in the range of $[0,1]$, representing the score of this record in the corrsponding dimension.
+    It contains 21 question related targets and 9 answer related targets.
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block{GOAM Algorithm}{
+\block{EDA}{
+    The 30 targets shoud be continuous values according to the competition description.
+    But in fact, according to the training set, they have only several fixed values.
 
+    The box plot below shows the corresponding between target values and categories. 
+    It's interesting to notice that:
+    \begin{itemize}
+        \item Target distribution alone categories have not much different.
+        \item Some targets have a very sharp distribution.
+    \end{itemize}
+
+\begin{center}
+    \includegraphics[width=.48\linewidth]{figures/targets.pdf}
+    \includegraphics[width=.48\linewidth]{figures/target_category_distribution.pdf}
+\end{center}
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 
@@ -120,15 +124,66 @@
  %Second column with first block's top edge aligned with with previous column's top.
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block{GOAM Algorithm}{
-
+\block{Method}{
+    \subsection{Embedding}
+    The idea of vector semantics is thus to represent a word as a point in some multidimensional semantic space.
+    Vectors for representing words are generally called embeddings, because the word is embedded in a particular vector space.
+    After convert to embeddings, words with similar meanings are nearby in space.
+    
+    There are two commonly used vector semantic models. tf-idf and word2vec.
+    \subsubsection{Tf-idf}
+    The tf-idf algorithm is the product of two terms.
+    \begin{itemize}
+        \item \textbf{term frequency}:the frequency of the word $t$ in the document $d$. 
+        \item \textbf{inverse document frequency}: the inverse of document frequency, which is the number of documents it occurs in.
+    \end{itemize}
+    \begin{equation}
+        tf_{t,d}=count(t,d)
+    \end{equation}
+    \begin{equation}
+        idf_t = \log_{10}{(\frac{N}{df_t})}
+    \end{equation}
+    Then we get the tf-idf weight value:
+    \begin{equation}
+        w_{t,d}=tf_{d,f}\times idf_t
+    \end{equation}
+    The tf-idf vector model represents a target word as a vector with dimensions 
+    corresponding to all the words in the vocabulary (length $|V|$, with vocabularies of 20,000 to 50,000).
+    The values in each dimension are the frequency with which the target 
+    word co-occurs with each neighboring context word, weighted by tf-idf.
+    It can also be used to represent a document by the centroid document vector.
+    Given $k$ word vectors $w_1, w_2, \dots, w_k$, the centroid document vector $d$ is:
+    \begin{equation}
+        d = \frac{w_1+w_2+\dots+w_k}{k}
+    \end{equation}
+    The vector can be used to estimate the similarity between the two word or documents by
+    compute $\cos{(d_1, d_2)}$.
+    
+    \subsubsection{Word2vec}
+    The tf-idf vector model represent a word as a sparse, long vector. 
+    And it can't capture the words'position information. 
+    To do this, the word2vec algorithm is a better choice.
+    It also represent words as very short, dense vectors. 
+    It turn out that dense vectors work better in every NLP task than sparse vectors.
+    
+    The skip-gram algorithm is one of two algorithms in a software package called word2vec,
+    and so sometimes the algorithm is loosely referred to as word2vec. The intuition of word2vec is that
+    given tuple $(t, c)$ of target word $t$ and candidate context word $c$, get whether $c$ is a real context word. (binary classification)
+    
+    The intuition of skip-gram is:
+    \begin{enumerate}
+        \item Treat the target word and a neighboring context word as positive examples.
+        \item Randomly sample other words in the lexicon to get negative samples.
+        \item Use logistic reg to train a classifier to distinguish those two cases.
+        \item Use the reg weights as the embeddings.
+    \end{enumerate}
 }
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
 % Second column - first block
 
 
 %%%%%%%%%% -------------------------------------------------------------------- %%%%%%%%%%
-\block[titleleft]{Experiment}
+\block[titleleft]{Expirement and Analysis}
 {
 
 
